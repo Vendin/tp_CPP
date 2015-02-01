@@ -3,7 +3,6 @@
 #include "player.h"
 MyItem::MyItem(int x, int y)
 {
-    //random start rotation
     angle = 180;
     setRotation(angle);
     speed_Y = 0;
@@ -15,9 +14,11 @@ MyItem::MyItem(int x, int y)
 
 QRectF MyItem::boundingRect() const
 {
-    //sizes of particles
-    return QRect(0,0,20,20);
+    //sizes of particle
+    return QRect(0,0,38,38);
 }
+
+
 
 void MyItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -26,8 +27,7 @@ void MyItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     // basic Collision detection
     if(scene()->collidingItems(this).isEmpty()){
           // no collision
-        Brush.setColor(Qt::green);
-
+        Brush.setColor(Qt::gray);
     } else { // collision
         Brush.setColor(Qt::red);
         DoCollision();
@@ -45,13 +45,19 @@ void MyItem::set_speed(int X, int Y)
 void MyItem::advance(int phase)
 {
     if(!phase) return;
-
     coordinate_X += speed_X;
     coordinate_Y += speed_Y;
-    std::cout << coordinate_X << " " << coordinate_Y << std::endl;
-
     QPointF location = this->pos();
     setPos(mapToParent(speed_X, speed_Y));
+}
+
+bool MyItem::get_speed_zero()
+{
+    if (speed_X == 0 && speed_Y == 0)
+    {
+        return true;
+    }
+    return false;
 }
 
 void MyItem::DoCollision()
@@ -66,16 +72,16 @@ void MyItem::DoCollision()
         setPos(mapToParent(-speed_X, -speed_Y));
         speed_X = 0;
         speed_Y = 0;
+
     }
     else
     {
         // set the new position
         coordinate_X -= speed_X;
         coordinate_Y -= speed_Y;
-         setPos(mapToParent(-speed_X, -speed_Y));
+        setPos(mapToParent(-speed_X, -speed_Y));
         speed_X = 0;
         speed_Y = 0;
-
     }
 }
 

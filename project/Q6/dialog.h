@@ -2,31 +2,35 @@
 #define DIALOG_H
 
 #include <QDialog>
-#include <QtCore>
 #include <QtGui>
-#include <QGraphicsScene>
-#include <QRectF>
 #include <myitem.h>
-#include <iostream>
 #include <player.h>
-using namespace std;
 
 namespace Ui
 {
 class Dialog;
 }
+
 class Dialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit Dialog(QWidget *parent = 0);
+    static Dialog *instance();
     ~Dialog();
     void keyPressEvent(QKeyEvent *);
+    void barrier_one();
+    void barrier_two();
+    void barrier_three();
+    void barrier_random();
+protected:
+     explicit Dialog(QWidget *parent = 0);
 private:
     Ui::Dialog *ui;
     QGraphicsScene *scece;
-    QTimer *timer;
     Player *object;
+    QTimer *timer;
+    static Dialog* instan;
 };
+
 
 #endif // DIALOG_H
